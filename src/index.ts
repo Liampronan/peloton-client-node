@@ -1,6 +1,6 @@
-import querystring = require('querystring');
+import querystring = require("querystring");
 
-import request from './request';
+import request from "./request";
 import {
   FollowerFollowingResponse,
   MeResponse,
@@ -10,24 +10,25 @@ import {
   WorkoutPerformanceGraphResponse,
   WorkoutResponse,
   WorkoutsResponse,
-} from './interfaces/responses';
+} from "./interfaces/responses";
 import {
   AuthenticateOptions,
+  ClassCategory,
   FollowerFollowingOptions,
   RideDetailsOptions,
   RideOptions,
   WorkoutOptions,
   WorkoutPerformanceGraphOptions,
   WorkoutsOptions,
-} from './interfaces/options';
+} from "./interfaces/options";
 
 /**
  * The client variables which are stored to maintain a "session" when making requests.
  */
 interface ClientVariables {
-  loggedIn: boolean,
-  cookie?: Array<string>
-  userId?: string
+  loggedIn: boolean;
+  cookie?: Array<string>;
+  userId?: string;
 }
 
 const clientVariables: ClientVariables = {
@@ -53,12 +54,12 @@ function _pelotonAuthUrlFor(forPath: string): string {
 }
 
 /**
- * Verifies that the user is logged in by checking the clientVariables.loggedIn status. 
+ * Verifies that the user is logged in by checking the clientVariables.loggedIn status.
  * @throws {Error} if the user is not logged in
  */
 function _verifyIsLoggedIn() {
   if (!clientVariables.loggedIn) {
-    throw new Error('Must authenticate before making API call.');
+    throw new Error("Must authenticate before making API call.");
   }
 }
 
@@ -67,11 +68,11 @@ function _verifyIsLoggedIn() {
  * @param {AuthenticationOptions} options - options used to authenticate
  */
 async function authenticate(options: AuthenticateOptions) {
-  const loginRes = await request.post(_pelotonAuthUrlFor('/login'), {
+  const loginRes = await request.post(_pelotonAuthUrlFor("/login"), {
     username_or_email: options.username,
     password: options.password,
   });
-  clientVariables.cookie = loginRes.headers['set-cookie'];
+  clientVariables.cookie = loginRes.headers["set-cookie"];
   clientVariables.userId = loginRes.data.user_id;
   clientVariables.loggedIn = true;
 }
@@ -82,14 +83,14 @@ async function authenticate(options: AuthenticateOptions) {
  */
 async function me(): Promise<MeResponse> {
   _verifyIsLoggedIn();
-  const meRes = await request.get(_pelotonApiUrlFor('/me'), {
+  const meRes = await request.get(_pelotonApiUrlFor("/me"), {
     cookie: clientVariables.cookie,
   });
   return meRes.data;
 }
 
 interface UserOptions {
-  userId?: string
+  userId?: string;
 }
 
 /**
@@ -98,7 +99,9 @@ interface UserOptions {
  * @return {Promise<UserResponse | MeResponse>} the limited user information if a userId is
  * specified, or your full options if none specified or your own user ID specified
  */
-async function user(options: UserOptions = {}): Promise<UserResponse | MeResponse> {
+async function user(
+  options: UserOptions = {}
+): Promise<UserResponse | MeResponse> {
   _verifyIsLoggedIn();
   const userId = options.userId || clientVariables.userId;
   const userRes = await request.get(_pelotonApiUrlFor(`/user/${userId}`), {
@@ -114,15 +117,20 @@ async function user(options: UserOptions = {}): Promise<UserResponse | MeRespons
  * @return {Promise<FollowerFollowingResponse>} the list of those being followed by the specified
  * userId
  */
-async function followers(options: FollowerFollowingOptions): Promise<FollowerFollowingResponse> {
+async function followers(
+  options: FollowerFollowingOptions
+): Promise<FollowerFollowingResponse> {
   _verifyIsLoggedIn();
   const userId = options.userId || clientVariables.userId;
   const limit = options.limit || 10;
   const page = options.page || 0;
   const workoutQueryParams = querystring.stringify({ limit, page });
-  const followersRes = await request.get(_pelotonApiUrlFor(`/user/${userId}/followers?${workoutQueryParams}`), {
-    cookie: clientVariables.cookie,
-  });
+  const followersRes = await request.get(
+    _pelotonApiUrlFor(`/user/${userId}/followers?${workoutQueryParams}`),
+    {
+      cookie: clientVariables.cookie,
+    }
+  );
   return followersRes.data;
 }
 
@@ -132,15 +140,20 @@ async function followers(options: FollowerFollowingOptions): Promise<FollowerFol
  * @param {FollowerFollowingOptions} options - the options to pass into the request
  * @return {Promise<FollowerFollowingResponse>} the list of those following the specified userId
  */
-async function following(options: FollowerFollowingOptions): Promise<FollowerFollowingResponse> {
+async function following(
+  options: FollowerFollowingOptions
+): Promise<FollowerFollowingResponse> {
   _verifyIsLoggedIn();
   const userId = options.userId || clientVariables.userId;
   const limit = options.limit || 10;
   const page = options.page || 0;
   const workoutQueryParams = querystring.stringify({ limit, page });
-  const followingRes = await request.get(_pelotonApiUrlFor(`/user/${userId}/following?${workoutQueryParams}`), {
-    cookie: clientVariables.cookie,
-  });
+  const followingRes = await request.get(
+    _pelotonApiUrlFor(`/user/${userId}/following?${workoutQueryParams}`),
+    {
+      cookie: clientVariables.cookie,
+    }
+  );
   return followingRes.data;
 }
 
@@ -149,17 +162,22 @@ async function following(options: FollowerFollowingOptions): Promise<FollowerFol
  * @param {WorkoutOptions} options - the options for fetching the workouts
  * @return {Promise<WorkoutsRes>} the workouts call results
  */
-async function workouts(options: WorkoutsOptions = {}): Promise<WorkoutsResponse> {
+async function workouts(
+  options: WorkoutsOptions = {}
+): Promise<WorkoutsResponse> {
   _verifyIsLoggedIn();
   const userId = options.userId || clientVariables.userId;
-  const joins = options.joins || 'ride';
+  const joins = options.joins || "ride";
   const limit = options.limit || 10;
   const page = options.page || 0;
 
   const workoutQueryParams = querystring.stringify({ joins, limit, page });
-  const workoutsRes = await request.get(_pelotonApiUrlFor(`/user/${userId}/workouts?${workoutQueryParams}`), {
-    cookie: clientVariables.cookie,
-  });
+  const workoutsRes = await request.get(
+    _pelotonApiUrlFor(`/user/${userId}/workouts?${workoutQueryParams}`),
+    {
+      cookie: clientVariables.cookie,
+    }
+  );
   return workoutsRes.data;
 }
 
@@ -172,9 +190,12 @@ async function workout(options: WorkoutOptions): Promise<WorkoutResponse> {
   _verifyIsLoggedIn();
   const { workoutId } = options;
 
-  const workoutRes = await request.get(_pelotonApiUrlFor(`/workout/${workoutId}`), {
-    cookie: clientVariables.cookie,
-  });
+  const workoutRes = await request.get(
+    _pelotonApiUrlFor(`/workout/${workoutId}`),
+    {
+      cookie: clientVariables.cookie,
+    }
+  );
   return workoutRes.data;
 }
 
@@ -183,15 +204,20 @@ async function workout(options: WorkoutOptions): Promise<WorkoutResponse> {
  * @param {WorkoutPerformanceGraphOptions} options - request options
  * @return {Promise<WorkoutPerformanceGraphResponse>} the performance graph data
  */
-async function workoutPerformanceGraph(options: WorkoutPerformanceGraphOptions): Promise<WorkoutPerformanceGraphResponse> {
+async function workoutPerformanceGraph(
+  options: WorkoutPerformanceGraphOptions
+): Promise<WorkoutPerformanceGraphResponse> {
   _verifyIsLoggedIn();
   const { workoutId } = options;
   const every_n = options.everyN || 5;
 
   const queryString = querystring.stringify({ every_n });
-  const workoutPerformanceGraphRes = await request.get(_pelotonApiUrlFor(`/workout/${workoutId}/performance_graph?${queryString}`), {
-    cookie: clientVariables.cookie,
-  });
+  const workoutPerformanceGraphRes = await request.get(
+    _pelotonApiUrlFor(`/workout/${workoutId}/performance_graph?${queryString}`),
+    {
+      cookie: clientVariables.cookie,
+    }
+  );
 
   return workoutPerformanceGraphRes.data;
 }
@@ -199,7 +225,7 @@ async function workoutPerformanceGraph(options: WorkoutPerformanceGraphOptions):
 /**
  * Fetch information about a specific ride.
  * @param {RideOptions} options - request optoins
- * @return {Promise<RideResponse} information about the specified ride 
+ * @return {Promise<RideResponse} information about the specified ride
  */
 async function ride(options: RideOptions): Promise<RideResponse> {
   _verifyIsLoggedIn();
@@ -216,18 +242,36 @@ async function ride(options: RideOptions): Promise<RideResponse> {
  * @param {RideDetailsOptions} options - request options
  * @return {Promise<RideDetailsResponse>} the details of the specified ride
  */
-async function rideDetails(options: RideDetailsOptions): Promise<RideDetailsResponse> {
+async function rideDetails(
+  options: RideDetailsOptions
+): Promise<RideDetailsResponse> {
   _verifyIsLoggedIn();
   const { rideId } = options;
 
-  const rideRes = await request.get(_pelotonApiUrlFor(`/ride/${rideId}/details`), {
-    cookie: clientVariables.cookie,
-  });
+  const rideRes = await request.get(
+    _pelotonApiUrlFor(`/ride/${rideId}/details`),
+    {
+      cookie: clientVariables.cookie,
+    }
+  );
+  return rideRes.data;
+}
+
+// TODO: add return type
+async function browseClasses(classType?: ClassCategory) {
+  const urlQueryStr = !!classType ? `?browse_category=${classType}` : "";
+  const rideRes = await request.get(
+    _pelotonApiUrlFor(`v2/ride/archived${urlQueryStr}`),
+    {
+      cookie: clientVariables.cookie,
+    }
+  );
   return rideRes.data;
 }
 
 export const peloton = {
   authenticate,
+  browseClasses,
   me,
   user,
   followers,
