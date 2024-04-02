@@ -26,3 +26,9 @@ export interface WorkoutsOptions {
     page?: number;
     joins?: string;
 }
+export declare enum ClassCategory {
+    CYCLING = "cycling",
+    RUNNING = "running",
+    OUTDOOR = "outdoor",
+    CARDIO = "cardio"
+}
