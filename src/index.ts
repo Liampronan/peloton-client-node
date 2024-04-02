@@ -258,7 +258,9 @@ async function rideDetails(
 }
 
 // TODO: add return type
-async function browseClasses(classType?: ClassCategory) {
+async function browseClasses(
+  classType?: ClassCategory
+): Promise<Record<string, unknown>[]> {
   const urlQueryStr = !!classType ? `?browse_category=${classType}` : "";
   const rideRes = await request.get(
     _pelotonApiUrlFor(`v2/ride/archived${urlQueryStr}`),

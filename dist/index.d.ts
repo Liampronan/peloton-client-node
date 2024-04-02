@@ -13,7 +13,7 @@ declare function workout(options: WorkoutOptions): Promise<WorkoutResponse>;
 declare function workoutPerformanceGraph(options: WorkoutPerformanceGraphOptions): Promise<WorkoutPerformanceGraphResponse>;
 declare function ride(options: RideOptions): Promise<RideResponse>;
 declare function rideDetails(options: RideDetailsOptions): Promise<RideDetailsResponse>;
-declare function browseClasses(classType?: ClassCategory): Promise<any>;
+declare function browseClasses(classType?: ClassCategory): Promise<Record<string, unknown>[]>;
 export declare const peloton: {
     authenticate: typeof authenticate;
     browseClasses: typeof browseClasses;
