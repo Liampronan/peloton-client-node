@@ -248,18 +248,20 @@ function rideDetails(options) {
     });
 }
 function browseClasses(classType) {
+    if (classType === void 0) { classType = undefined; }
     return __awaiter(this, void 0, void 0, function () {
-        var urlQueryStr, rideRes;
+        var urlQueryStr, classesRes;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     urlQueryStr = !!classType ? "?browse_category=" + classType : "";
+                    console.log("urlstr", _pelotonApiUrlFor("/v2/ride/archived" + urlQueryStr));
                     return [4, request_1["default"].get(_pelotonApiUrlFor("/v2/ride/archived" + urlQueryStr), {
                             cookie: clientVariables.cookie
                         })];
                 case 1:
-                    rideRes = _a.sent();
-                    return [2, rideRes.data];
+                    classesRes = _a.sent();
+                    return [2, classesRes.data];
             }
         });
     });
