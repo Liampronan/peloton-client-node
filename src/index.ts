@@ -263,7 +263,7 @@ async function browseClasses(
 ): Promise<Record<string, unknown>[]> {
   const urlQueryStr = !!classType ? `?browse_category=${classType}` : "";
   const rideRes = await request.get(
-    _pelotonApiUrlFor(`v2/ride/archived${urlQueryStr}`),
+    _pelotonApiUrlFor(`/v2/ride/archived${urlQueryStr}`),
     {
       cookie: clientVariables.cookie,
     }
