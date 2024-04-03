@@ -2,6 +2,7 @@ import querystring = require("querystring");
 
 import request from "./request";
 import {
+  BrowseClassResponse,
   FollowerFollowingResponse,
   MeResponse,
   RideDetailsResponse,
@@ -260,7 +261,7 @@ async function rideDetails(
 // TODO: add return type
 async function browseClasses(
   classType: ClassCategory = undefined
-): Promise<Record<string, unknown>[]> {
+): Promise<BrowseClassResponse> {
   const urlQueryStr = !!classType ? `?browse_category=${classType}` : "";
   console.log("urlstr", _pelotonApiUrlFor(`/v2/ride/archived${urlQueryStr}`));
   const classesRes = await request.get(
