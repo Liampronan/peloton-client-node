@@ -258,7 +258,6 @@ async function rideDetails(
   return rideRes.data;
 }
 
-// TODO: add return type
 async function browseClasses(
   classType: ClassCategory = undefined
 ): Promise<BrowseClassResponse> {
