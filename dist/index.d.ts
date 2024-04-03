@@ -1,5 +1,5 @@
-import { FollowerFollowingResponse, MeResponse, RideDetailsResponse, RideResponse, UserResponse, WorkoutPerformanceGraphResponse, WorkoutResponse, WorkoutsResponse } from './interfaces/responses';
-import { AuthenticateOptions, FollowerFollowingOptions, RideDetailsOptions, RideOptions, WorkoutOptions, WorkoutPerformanceGraphOptions, WorkoutsOptions } from './interfaces/options';
+import { BrowseClassResponse, FollowerFollowingResponse, MeResponse, RideDetailsResponse, RideResponse, UserResponse, WorkoutPerformanceGraphResponse, WorkoutResponse, WorkoutsResponse } from "./interfaces/responses";
+import { AuthenticateOptions, ClassCategory, FollowerFollowingOptions, RideDetailsOptions, RideOptions, WorkoutOptions, WorkoutPerformanceGraphOptions, WorkoutsOptions } from "./interfaces/options";
 declare function authenticate(options: AuthenticateOptions): Promise<void>;
 declare function me(): Promise<MeResponse>;
 interface UserOptions {
@@ -13,8 +13,10 @@ declare function workout(options: WorkoutOptions): Promise<WorkoutResponse>;
 declare function workoutPerformanceGraph(options: WorkoutPerformanceGraphOptions): Promise<WorkoutPerformanceGraphResponse>;
 declare function ride(options: RideOptions): Promise<RideResponse>;
 declare function rideDetails(options: RideDetailsOptions): Promise<RideDetailsResponse>;
+declare function browseClasses(classType?: ClassCategory): Promise<BrowseClassResponse>;
 export declare const peloton: {
     authenticate: typeof authenticate;
+    browseClasses: typeof browseClasses;
     me: typeof me;
     user: typeof user;
     followers: typeof followers;

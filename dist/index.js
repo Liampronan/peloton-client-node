@@ -50,7 +50,7 @@ function _pelotonAuthUrlFor(forPath) {
 }
 function _verifyIsLoggedIn() {
     if (!clientVariables.loggedIn) {
-        throw new Error('Must authenticate before making API call.');
+        throw new Error("Must authenticate before making API call.");
     }
 }
 function authenticate(options) {
@@ -58,13 +58,13 @@ function authenticate(options) {
         var loginRes;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4, request_1["default"].post(_pelotonAuthUrlFor('/login'), {
+                case 0: return [4, request_1["default"].post(_pelotonAuthUrlFor("/login"), {
                         username_or_email: options.username,
                         password: options.password
                     })];
                 case 1:
                     loginRes = _a.sent();
-                    clientVariables.cookie = loginRes.headers['set-cookie'];
+                    clientVariables.cookie = loginRes.headers["set-cookie"];
                     clientVariables.userId = loginRes.data.user_id;
                     clientVariables.loggedIn = true;
                     return [2];
@@ -79,7 +79,7 @@ function me() {
             switch (_a.label) {
                 case 0:
                     _verifyIsLoggedIn();
-                    return [4, request_1["default"].get(_pelotonApiUrlFor('/me'), {
+                    return [4, request_1["default"].get(_pelotonApiUrlFor("/me"), {
                             cookie: clientVariables.cookie
                         })];
                 case 1:
@@ -159,7 +159,7 @@ function workouts(options) {
                 case 0:
                     _verifyIsLoggedIn();
                     userId = options.userId || clientVariables.userId;
-                    joins = options.joins || 'ride';
+                    joins = options.joins || "ride";
                     limit = options.limit || 10;
                     page = options.page || 0;
                     workoutQueryParams = querystring.stringify({ joins: joins, limit: limit, page: page });
@@ -247,8 +247,28 @@ function rideDetails(options) {
         });
     });
 }
+function browseClasses(classType) {
+    if (classType === void 0) { classType = undefined; }
+    return __awaiter(this, void 0, void 0, function () {
+        var urlQueryStr, classesRes;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    urlQueryStr = !!classType ? "?browse_category=" + classType : "";
+                    console.log("urlstr", _pelotonApiUrlFor("/v2/ride/archived" + urlQueryStr));
+                    return [4, request_1["default"].get(_pelotonApiUrlFor("/v2/ride/archived" + urlQueryStr), {
+                            cookie: clientVariables.cookie
+                        })];
+                case 1:
+                    classesRes = _a.sent();
+                    return [2, classesRes.data];
+            }
+        });
+    });
+}
 exports.peloton = {
     authenticate: authenticate,
+    browseClasses: browseClasses,
     me: me,
     user: user,
     followers: followers,
