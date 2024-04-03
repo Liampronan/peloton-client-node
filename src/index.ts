@@ -262,7 +262,6 @@ async function browseClasses(
   classType: ClassCategory = undefined
 ): Promise<BrowseClassResponse> {
   const urlQueryStr = !!classType ? `?browse_category=${classType}` : "";
-  console.log("urlstr", _pelotonApiUrlFor(`/v2/ride/archived${urlQueryStr}`));
   const classesRes = await request.get(
     _pelotonApiUrlFor(`/v2/ride/archived${urlQueryStr}`),
     {
