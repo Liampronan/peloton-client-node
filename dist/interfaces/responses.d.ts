@@ -1,4 +1,12 @@
-import { AchievementTemplate, Averages, AverageSummary, ContractAgreement, DefaultAlbumImages, DisabledLeaderboardFilters, Events, FtpInfo, JoinTokens, Metric, PairedDevice, Playlist, QuickHits, Relationship, Ride, RideSegments, RideType, Segment, Streaks, Summary, SummaryObject, TargetPerformanceMetrics, UserSmall, Workout, WorkoutCountObject } from './models';
+import { AchievementTemplate, Averages, AverageSummary, ClassDetail, ContractAgreement, DefaultAlbumImages, DisabledLeaderboardFilters, Events, FtpInfo, JoinTokens, Metric, PairedDevice, Playlist, QuickHits, Relationship, Ride, RideSegments, RideType, Segment, Streaks, Summary, SummaryObject, TargetPerformanceMetrics, UserSmall, Workout, WorkoutCountObject } from "./models";
+export interface BrowseClassResponse {
+    data: ClassDetail[];
+    page: number;
+    total: number;
+    count: number;
+    page_count: number;
+    sort_by?: string;
+}
 export interface FollowerFollowingResponse {
     data: UserSmall[];
     limit: number;

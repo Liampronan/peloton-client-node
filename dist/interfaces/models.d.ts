@@ -15,6 +15,15 @@ export interface Averages {
     average_effort_score: null | number;
     total_heart_rate_zone_durations: null | number;
 }
+export interface ClassDetail {
+    description: string;
+    duration: number;
+    id: string;
+    instructor_id: string;
+    length: number;
+    original_air_time: number;
+    title: string;
+}
 export interface Summary {
     display_name: string;
     display_unit: string;
