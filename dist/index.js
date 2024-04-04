@@ -256,7 +256,7 @@ function browseClasses(classType, page) {
             switch (_a.label) {
                 case 0:
                     urlQueryStr = "?browse_category=";
-                    urlQueryStr += !!classType ? "{classType}" : "";
+                    urlQueryStr += !!classType ? "" + classType : "";
                     urlQueryStr += "&page=" + page;
                     return [4, request_1["default"].get(_pelotonApiUrlFor("/v2/ride/archived" + urlQueryStr), {
                             cookie: clientVariables.cookie
