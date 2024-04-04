@@ -247,15 +247,17 @@ function rideDetails(options) {
         });
     });
 }
-function browseClasses(classType) {
+function browseClasses(classType, page) {
     if (classType === void 0) { classType = undefined; }
+    if (page === void 0) { page = 0; }
     return __awaiter(this, void 0, void 0, function () {
         var urlQueryStr, classesRes;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    urlQueryStr = !!classType ? "?browse_category=" + classType : "";
-                    console.log("urlstr", _pelotonApiUrlFor("/v2/ride/archived" + urlQueryStr));
+                    urlQueryStr = "?browse_category=";
+                    urlQueryStr += !!classType ? "{classType}" : "";
+                    urlQueryStr += "&page=" + page;
                     return [4, request_1["default"].get(_pelotonApiUrlFor("/v2/ride/archived" + urlQueryStr), {
                             cookie: clientVariables.cookie
                         })];

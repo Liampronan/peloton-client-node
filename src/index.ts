@@ -259,9 +259,12 @@ async function rideDetails(
 }
 
 async function browseClasses(
-  classType: ClassCategory = undefined
+  classType: ClassCategory = undefined,
+  page = 0
 ): Promise<BrowseClassResponse> {
-  const urlQueryStr = !!classType ? `?browse_category=${classType}` : "";
+  let urlQueryStr = "?browse_category=";
+  urlQueryStr += !!classType ? `{classType}` : "";
+  urlQueryStr += `&page=${page}`;
   const classesRes = await request.get(
     _pelotonApiUrlFor(`/v2/ride/archived${urlQueryStr}`),
     {
