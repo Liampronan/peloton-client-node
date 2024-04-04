@@ -30,5 +30,6 @@ export declare enum ClassCategory {
     CYCLING = "cycling",
     RUNNING = "running",
     OUTDOOR = "outdoor",
-    CARDIO = "cardio"
+    CARDIO = "cardio",
+    STENGTH = "strength"
 }

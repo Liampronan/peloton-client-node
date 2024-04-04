@@ -37,4 +37,5 @@ export enum ClassCategory {
   RUNNING = "running",
   OUTDOOR = "outdoor",
   CARDIO = "cardio",
+  STENGTH = "strength",
 }

@@ -7,5 +7,6 @@ var ClassCategory;
     ClassCategory["RUNNING"] = "running";
     ClassCategory["OUTDOOR"] = "outdoor";
     ClassCategory["CARDIO"] = "cardio";
+    ClassCategory["STENGTH"] = "strength";
 })(ClassCategory = exports.ClassCategory || (exports.ClassCategory = {}));
 //# sourceMappingURL=options.js.map
